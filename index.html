@@ -106,16 +106,17 @@
                 var curTime, curMinutes, curSeconds;
 
                 if (!running) {
+                    running = 1;
                     startPauseTimer.innerHTML = "<i class='fas fa-pause'></i>";
                     startTimer(timerDuration);
                 } else {
+                    running = 0;
                     startPauseTimer.innerHTML = "<i class='fas fa-play'></i>";
                     curTime = document.getElementById("time").textContent.split(":");
                     curMinutes = parseInt(curTime[0]);
                     curSeconds = parseInt(curTime[1]);
                     timerDuration = curMinutes * 60 + curSeconds;
                     clearInterval(timerID);
-                    running = 0;
                 }
             });
 
