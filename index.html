@@ -50,6 +50,11 @@
         <source src="single-beep.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+    <audio id="singleBeepLow">
+        <source src="single-beep-low.wav" type="audio/wav">
+        <source src="single-beep-low.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
     <div class="container">
         <h1 id="time">04:00</h1>
@@ -59,7 +64,7 @@
             startPauseTimer = document.getElementById("startPauseTimer"),
             display = document.querySelector('#time'),
             running = 0,
-            timerDuration = 60 * 4 + 5,
+            timerDuration = 60 * 4 + 4,
             pauseTime,
             timerID;     
         
@@ -76,18 +81,22 @@
                 
                 if (timer > 240 ) {
                     singleBeep.play();
+                } else if (timer == 240) {
+                    singleBeepLow.play();
                 } else {
                     display.textContent = minutes + ":" + seconds;
                 }
                 
-                if (timer == 60 || timer < 5) {
+                if (timer == 60 || (timer < 5 && timer > 0)) {
                     singleBeep.play();
+                } else if (timer == 0) {
+                    singleBeepLow.play();
                 }
         
                 if (--timer < 0) {
                     clearInterval(timerID);
                     running = 0;
-                    timerDuration = 60 * 4 + 5;
+                    timerDuration = 60 * 4 + 4;
                 }
             }, 1000);
         }
@@ -112,7 +121,7 @@
 
             document.getElementById("resetTimer").addEventListener("click", function(){
                 startPauseTimer.innerHTML = "<i class='fas fa-play'></i>";
-                timerDuration = 60 * 4 + 5;
+                timerDuration = 60 * 4 + 4;
                 clearInterval(timerID);
                 display.textContent = "04:00";
                 running = 0;
