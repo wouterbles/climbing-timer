@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Climbing Timer</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <style>
         body {
             background-color: black;
@@ -22,11 +23,27 @@
             align-items: center;
             justify-content: center;
         }
+
+        button {
+            color: white;
+            background-color: black;
+            border: 0;
+            padding: 10px 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            color: #2980b9;
+        }
+
+        button:focus {
+            outline: 0;
+        }
     </style>
 </head>
 <body>
-    <button id="startPauseTimer">Start/pause</button>
-    <button id="resetTimer">Reset</button>
+    <button id="startPauseTimer"><i class="fas fa-play"></i></button>
+    <button id="resetTimer"><i class="fas fa-redo"></i></button>
 
     <audio id="singleBeep">
         <source src="single-beep.wav" type="audio/wav">
@@ -39,6 +56,7 @@
     </div>
     <script>
         var singleBeep = document.getElementById("singleBeep"),
+            startPauseTimer = document.getElementById("startPauseTimer"),
             display = document.querySelector('#time'),
             running = 0,
             timerDuration = 60 * 4,
@@ -57,7 +75,7 @@
                 seconds = seconds < 10 ? "0" + seconds : seconds;
         
                 display.textContent = minutes + ":" + seconds;
-                if (timer == 30 || timer < 3) {
+                if (timer == 60 || timer < 5) {
                     singleBeep.play();
                 }
         
@@ -74,8 +92,10 @@
                 var curTime, curMinutes, curSeconds;
 
                 if (!running) {
+                    startPauseTimer.innerHTML = "<i class='fas fa-pause'></i>";
                     startTimer(timerDuration);
                 } else {
+                    startPauseTimer.innerHTML = "<i class='fas fa-play'></i>";
                     curTime = document.getElementById("time").textContent.split(":");
                     curMinutes = parseInt(curTime[0]);
                     curSeconds = parseInt(curTime[1]);
@@ -86,6 +106,7 @@
             });
 
             document.getElementById("resetTimer").addEventListener("click", function(){
+                startPauseTimer.innerHTML = "<i class='fas fa-play'></i>";
                 timerDuration = 60 * 4;
                 clearInterval(timerID);
                 display.textContent = "04:00";
