@@ -6,10 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Climbing Timer</title>
     <style>
+        body {
+            background-color: black;
+        }
         #time {
-            font-size: 70vh;
+            font-size: 35vw;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
+            color: white;
         }
             
         .container {
@@ -21,6 +25,9 @@
     </style>
 </head>
 <body>
+    <button id="startPauseTimer">Start/pause</button>
+    <button id="resetTimer">Reset</button>
+
     <audio id="singleBeep">
         <source src="single-beep.wav" type="audio/wav">
         <source src="single-beep.mp3" type="audio/mpeg">
@@ -28,21 +35,26 @@
     </audio>
 
     <div class="container">
-        <h1 id="time"></h1>
+        <h1 id="time">04:00</h1>
     </div>
     <script>
-        var singleBeep = document.getElementById("singleBeep"); 
+        var singleBeep = document.getElementById("singleBeep"),
+            display = document.querySelector('#time'),
+            running = 0,
+            timerDuration = 60 * 4,
+            pauseTime,
+            timerID;     
         
-        function startTimer(duration, display) {
+        function startTimer(duration) {
             var timer = duration, minutes, seconds;
-            setInterval(function () {
+            timerID = setInterval(function () {
+                running = 1;
+
                 minutes = parseInt(timer / 60, 10)
                 seconds = parseInt(timer % 60, 10);
         
                 minutes = minutes < 10 ? "0" + minutes : minutes;
                 seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                console.log(timer);
         
                 display.textContent = minutes + ":" + seconds;
                 if (timer == 30 || timer < 3) {
@@ -50,15 +62,35 @@
                 }
         
                 if (--timer < 0) {
-                    timer = duration;
+                    clearInterval(timerID);
+                    running = 0;
+                    timerDuration = 60 * 4;
                 }
             }, 1000);
         }
-        
+
         window.onload = function () {
-            var fourMinutes = 60 * 4,
-                display = document.querySelector('#time');
-            startTimer(fourMinutes, display);
+            document.getElementById("startPauseTimer").addEventListener("click", function(){
+                var curTime, curMinutes, curSeconds;
+
+                if (!running) {
+                    startTimer(timerDuration);
+                } else {
+                    curTime = document.getElementById("time").textContent.split(":");
+                    curMinutes = parseInt(curTime[0]);
+                    curSeconds = parseInt(curTime[1]);
+                    timerDuration = curMinutes * 60 + curSeconds;
+                    clearInterval(timerID);
+                    running = 0;
+                }
+            });
+
+            document.getElementById("resetTimer").addEventListener("click", function(){
+                timerDuration = 60 * 4;
+                clearInterval(timerID);
+                display.textContent = "04:00";
+                running = 0;
+            });
         };
     </script>
 </body>
