@@ -64,7 +64,7 @@
             startPauseTimer = document.getElementById("startPauseTimer"),
             display = document.querySelector('#time'),
             running = 0,
-            timerDuration = 60 * 4 + 4,
+            timerDuration = 60 * 4 + 1,
             pauseTime,
             timerID;     
         
@@ -96,7 +96,7 @@
                 if (--timer < 0) {
                     clearInterval(timerID);
                     running = 0;
-                    timerDuration = 60 * 4 + 4;
+                    timerDuration = 60 * 4 + 1;
                 }
             }, 1000);
         }
@@ -122,7 +122,7 @@
 
             document.getElementById("resetTimer").addEventListener("click", function(){
                 startPauseTimer.innerHTML = "<i class='fas fa-play'></i>";
-                timerDuration = 60 * 4 + 4;
+                timerDuration = 60 * 4 + 1;
                 clearInterval(timerID);
                 display.textContent = "04:00";
                 running = 0;
