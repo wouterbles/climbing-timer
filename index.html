@@ -91,7 +91,7 @@
                     display.textContent = minutes + ":" + seconds;
                 }
               
-                if (timer == 60 || (timer < 5 && timer > 0)) {
+                if (timer == 60 || (timer < 6 && timer > 0)) {
                     singleBeep.play();
                 } else if (timer == 0) {
                     singleBeepLow.play();
