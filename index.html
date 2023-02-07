@@ -61,7 +61,7 @@
     </audio>
 
     <div class="container">
-        <h1 id="time">04:00</h1>
+        <h1 id="time">06:00</h1>
     </div>
     <script>
         var singleBeep = document.getElementById("singleBeep"),
@@ -134,6 +134,7 @@
             document.getElementById("setTimer360").addEventListener("click", function(){
                 startPauseTimer.innerHTML = "<i class='fas fa-play'></i>";
                 timerDuration = 360 + 1;
+                clearInterval(timerID);
                 display.textContent = "06:00";
                 running = 0;
             });
