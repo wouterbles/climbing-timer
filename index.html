@@ -43,7 +43,11 @@
 </head>
 <body>
     <button id="startPauseTimer"><i class="fas fa-play"></i></button>
-    <button id="resetTimer"><i class="fas fa-redo"></i></button>
+
+    <button id="setTimer360">6min</button>
+    <button id="setTimer240">4min</button>
+    <button id="setTimer40">40sec</button>
+
 
     <audio id="singleBeep">
         <source src="single-beep.wav" type="audio/wav">
@@ -64,7 +68,7 @@
             startPauseTimer = document.getElementById("startPauseTimer"),
             display = document.querySelector('#time'),
             running = 0,
-            timerDuration = 60 * 4 + 1,
+            timerDuration = 360 + 1,
             pauseTime,
             timerID;     
         
@@ -79,14 +83,14 @@
                 minutes = minutes < 10 ? "0" + minutes : minutes;
                 seconds = seconds < 10 ? "0" + seconds : seconds;
                 
-                if (timer > 240 ) {
+                if (timer > duration - 1 ) {
                     singleBeep.play();
-                } else if (timer == 240) {
+                } else if (timer == duration - 1) {
                     singleBeepLow.play();
                 } else {
                     display.textContent = minutes + ":" + seconds;
                 }
-                
+              
                 if (timer == 60 || (timer < 5 && timer > 0)) {
                     singleBeep.play();
                 } else if (timer == 0) {
@@ -96,7 +100,6 @@
                 if (--timer < 0) {
                     clearInterval(timerID);
                     running = 0;
-                    timerDuration = 60 * 4 + 1;
                 }
             }, 1000);
         }
@@ -115,14 +118,29 @@
                     curTime = document.getElementById("time").textContent.split(":");
                     curMinutes = parseInt(curTime[0]);
                     curSeconds = parseInt(curTime[1]);
-                    timerDuration = curMinutes * 60 + curSeconds;
+                    timerDuration = curMinutes * 60 + curSeconds + 1;
                     clearInterval(timerID);
                 }
             });
 
-            document.getElementById("resetTimer").addEventListener("click", function(){
+            document.getElementById("setTimer40").addEventListener("click", function(){
                 startPauseTimer.innerHTML = "<i class='fas fa-play'></i>";
-                timerDuration = 60 * 4 + 1;
+                timerDuration = 40 + 1;
+                clearInterval(timerID);
+                display.textContent = "00:40";
+                running = 0;
+            });
+
+            document.getElementById("setTimer360").addEventListener("click", function(){
+                startPauseTimer.innerHTML = "<i class='fas fa-play'></i>";
+                timerDuration = 360 + 1;
+                display.textContent = "06:00";
+                running = 0;
+            });
+
+            document.getElementById("setTimer240").addEventListener("click", function(){
+                startPauseTimer.innerHTML = "<i class='fas fa-play'></i>";
+                timerDuration = 240 + 1;
                 clearInterval(timerID);
                 display.textContent = "04:00";
                 running = 0;
