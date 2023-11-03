@@ -83,6 +83,7 @@
                 minutes = minutes < 10 ? "0" + minutes : minutes;
                 seconds = seconds < 10 ? "0" + seconds : seconds;
                 
+                //Beep on start
                 if (timer > duration - 1 ) {
                     singleBeep.play();
                 } else if (timer == duration - 1) {
@@ -91,15 +92,18 @@
                     display.textContent = minutes + ":" + seconds;
                 }
               
+                //Beep on every second below 5
                 if (timer == 60 || (timer < 6 && timer > 0)) {
                     singleBeep.play();
                 } else if (timer == 0) {
                     singleBeepLow.play();
                 }
         
+                //Reset timer
                 if (--timer < 0) {
                     clearInterval(timerID);
                     running = 0;
+                    startPauseTimer.innerHTML = "<i class='fas fa-play'></i>";
                 }
             }, 1000);
         }
